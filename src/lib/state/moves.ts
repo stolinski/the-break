@@ -10,7 +10,7 @@ const newMoves = () => {
 
 		const { data, error } = await supabase
 			.from('moves')
-			.select(`name, value, type`)
+			.select(`id, name, value, type`)
 			.eq('user_id', current_user.id);
 
 		if (error) throw error;
