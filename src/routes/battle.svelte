@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { moves } from '$lib/state/moves';
+	import { page } from '$lib/state/page';
 	import { battle_moves } from '$lib/state/battle_moves';
+	page.set({ title: 'Battle Tools' });
 
 	moves.loadMoves();
 

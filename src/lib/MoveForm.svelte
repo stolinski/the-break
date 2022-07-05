@@ -36,15 +36,15 @@
 </script>
 
 <form class="form-widget" on:submit|preventDefault={addMove}>
-	<div>
+	<div class="row">
 		<label for="name">Name</label>
 		<input id="name" type="text" bind:value={name} />
 	</div>
-	<div>
+	<div class="row">
 		<label for="value">Value</label>
 		<input id="value" type="number" min={0} max={10} bind:value />
 	</div>
-	<div>
+	<div class="row">
 		<label for="type">Type</label>
 		<select name="type" id="type" bind:value={type}>
 			<option value="power">Power</option>
@@ -54,7 +54,7 @@
 		</select>
 	</div>
 
-	<div>
+	<div class="row-submit">
 		<input
 			type="submit"
 			class="button block primary"
@@ -63,3 +63,20 @@
 		/>
 	</div>
 </form>
+
+<style>
+	.form-widget {
+		border: solid 1px rgba(255, 255, 255, 0.1);
+		border-radius: 15px;
+		padding: 15px;
+	}
+
+	.row {
+		margin-bottom: 15px;
+	}
+
+	.row-submit {
+		border-top: solid 1px rgba(255, 255, 255, 0.1);
+		padding-top: 10px;
+	}
+</style>
