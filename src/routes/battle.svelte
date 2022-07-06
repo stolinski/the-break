@@ -25,3 +25,17 @@
 {/await}
 
 <button on:click={battle_moves.reset}>Reset</button>
+
+<style>
+	button {
+		color: #eee;
+		background: blue;
+		box-shadow: var(--shadow-3);
+		border: none;
+		font-weight: bold;
+		border-radius: 8px;
+		font-size: 18px;
+		width: 100%;
+		padding: 10px;
+	}
+</style>
