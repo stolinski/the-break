@@ -1,4 +1,6 @@
-<script lang="ts" context="module">
+<script lang="ts">
+	import { page as skpage } from '$app/stores';
+	import '$lib/style.css';
 	import { user, auth_check } from '$lib/state/session';
 	import { page } from '$lib/state/page';
 	import Auth from '$lib/Auth.svelte';
@@ -6,16 +8,16 @@
 	auth_check();
 </script>
 
-<header>
-	<h1>{$page.title}</h1>
-	<nav>
-		<a href="/">Moves</a>
-		<a href="/battle">Battle</a>
-		<a href="/profile">Settings</a>
-	</nav>
-</header>
-
 <div class="container">
+	<header>
+		<h1>{$page.title}</h1>
+		<nav>
+			<a class:active={$skpage.url.pathname === '/'} href="/">Moves</a>
+			<a class:active={$skpage.url.pathname === '/battle'} href="/battle">Battle</a>
+			<a class:active={$skpage.url.pathname === '/profile'} href="/profile">Settings</a>
+		</nav>
+	</header>
+
 	{#if $user}
 		<slot />
 	{:else}
@@ -25,9 +27,14 @@
 
 <style>
 	:global(body) {
-		background-color: #111;
-		color: #eee;
 		font-family: sans-serif;
+		--black: #111;
+		--white: #eee;
+		--bg: var(--black);
+		--color: var(--white);
+
+		color: var(--color);
+		background-color: var(--bg);
 	}
 
 	:global(a) {
@@ -41,14 +48,31 @@
 		border: solid 1px #eee;
 		border-radius: 3px;
 		font-size: 24px;
+		width: 100%;
+		padding: 8px;
 	}
+
+	:global(label) {
+		font-size: 14px;
+		margin-bottom: 5px;
+		color: #eee;
+		opacity: 0.5;
+		display: block;
+	}
+
 	:global(input[type='submit']) {
 		color: #eee;
 		background: blue;
+		box-shadow: var(--shadow-3);
 		border: none;
 		font-weight: bold;
-		border-radius: 3px;
-		font-size: 24px;
+		border-radius: 8px;
+		font-size: 18px;
+		padding: 10px;
+	}
+
+	h1 {
+		margin-bottom: 40px;
 	}
 
 	nav {
@@ -59,12 +83,19 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		height: 80px;
+		height: 60px;
 		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+		z-index: 10;
+		background: var(--bg);
+	}
+
+	.active {
+		color: var(--yellow-4);
 	}
 
 	.container {
 		max-width: 1100px;
 		margin: 0 auto;
+		padding-bottom: 200px;
 	}
 </style>

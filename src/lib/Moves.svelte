@@ -11,37 +11,41 @@
 
 {#await $moves then data}
 	{#each types as type}
+		{@const filtered = data.filter((move) => move.type === type)}
+		{@const typeName = type[0].toUpperCase() + type.slice(1)}
 		<div class="move-type">
-			<h3>{type}</h3>
+			<h3>{typeName}</h3>
 			<div class="move-type-moves">
-				{#each data.filter((move) => move.type === type) as move}
-					<div class="move">
+				{#if filtered.length === 0}
+					<p>No {typeName} added yet.</p>
+				{:else}
+					{#each filtered as move}
 						<div class="move-name">
 							{move.name}<span class={`move-${move.value}`}>{move.value}</span>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				{/if}
 			</div>
 		</div>
 	{/each}
 {/await}
 
 <style>
-	.move {
-		border-radius: 15px;
-		padding: 15px;
-		background-color: rgba(255, 255, 255, 0.02);
-		margin-bottom: 10px;
-	}
-
 	.move-type-moves {
-		border-radius: 15px;
+		border-radius: 30px;
+		box-shadow: var(--shadow-3);
 		padding: 15px;
 		background-color: rgba(255, 255, 255, 0.02);
 		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 	}
 
 	.move-name {
+		border-radius: 15px;
+		padding: 15px;
+		background-color: rgba(255, 255, 255, 0.02);
 		display: flex;
 		justify-content: space-between;
 	}
