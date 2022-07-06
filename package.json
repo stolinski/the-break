@@ -31,6 +31,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@neodrag/svelte": "^1.2.3",
 		"@supabase/supabase-js": "^1.35.4",
 		"svelte-gesture": "^0.1.2"
 	}
