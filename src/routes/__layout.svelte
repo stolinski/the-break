@@ -13,7 +13,7 @@
 		<h1>{$page.title}</h1>
 		<nav>
 			<a class:active={$skpage.url.pathname === '/'} href="/">Moves</a>
-			<a class:active={$skpage.url.pathname === '/battle'} href="/battle">Battle</a>
+			<a class:active={$skpage.url.pathname === '/tools'} href="/tools">Tools</a>
 			<a class:active={$skpage.url.pathname === '/profile'} href="/profile">Settings</a>
 		</nav>
 	</header>
@@ -60,7 +60,8 @@
 		display: block;
 	}
 
-	:global(input[type='submit']) {
+	:global(input[type='submit']),
+	:global(button) {
 		color: var(--white);
 		background: blue;
 		box-shadow: var(--shadow-3);
