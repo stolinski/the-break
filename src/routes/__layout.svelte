@@ -28,8 +28,8 @@
 <style>
 	:global(body) {
 		font-family: sans-serif;
-		--black: #111;
-		--white: #eee;
+		--black: #0b0a08;
+		--white: #fbf0df;
 		--bg: var(--black);
 		--color: var(--white);
 
@@ -38,14 +38,14 @@
 	}
 
 	:global(a) {
-		color: #eee;
+		color: var(--white);
 		text-decoration: none;
 	}
 
 	:global(input, select) {
-		color: #eee;
+		color: var(--white);
 		background: transparent;
-		border: solid 1px #eee;
+		border: solid 1px var(--white);
 		border-radius: 3px;
 		font-size: 24px;
 		width: 100%;
@@ -55,13 +55,13 @@
 	:global(label) {
 		font-size: 14px;
 		margin-bottom: 5px;
-		color: #eee;
+		color: var(--white);
 		opacity: 0.5;
 		display: block;
 	}
 
 	:global(input[type='submit']) {
-		color: #eee;
+		color: var(--white);
 		background: blue;
 		box-shadow: var(--shadow-3);
 		border: none;
@@ -90,7 +90,7 @@
 	}
 
 	.active {
-		color: var(--yellow-4);
+		color: #f89b4b;
 	}
 
 	.container {

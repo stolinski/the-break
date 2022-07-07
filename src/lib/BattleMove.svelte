@@ -21,19 +21,22 @@
 	>
 		{move.name}
 	</div>
-	<div class="move-bg">Use Move</div>
+	<div class="move-bg"><span>Use Move</span><span>Use Move</span></div>
 </div>
 
 <style>
 	.move-wrapper {
 		position: relative;
+		border-radius: 15px;
+		overflow: hidden;
 	}
 
 	.move {
-		border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-		padding: 10px;
 		z-index: 10;
-		background-color: var(--bg);
+		background-color: #151412;
+		padding: 15px;
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.move-bg {
@@ -41,11 +44,13 @@
 		text-shadow: var(--shadow-1);
 		position: absolute;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		width: 100%;
 		height: 100%;
+		padding: 10px;
 		top: 0;
+		border-radius: 15px;
 		left: 0;
 		z-index: -1;
 		background: var(--red-6);

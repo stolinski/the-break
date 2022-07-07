@@ -2,7 +2,7 @@
 	"name": "bboy-tools",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "vite dev",
 		"build": "vite build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
