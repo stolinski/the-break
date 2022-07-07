@@ -8,9 +8,8 @@ const battleMoves = () => {
 	const { subscribe, update, set } = writable(starting_moves);
 
 	function addBattleMove(move_id: string) {
-		console.log('move_id', move_id);
 		let current_moves = JSON.parse(localStorage.getItem('battle_moves')) || [];
-		console.log('current_moves', current_moves);
+
 		// If there are no moves, create an empty array
 		if (current_moves.length === 0) {
 			current_moves = [move_id];

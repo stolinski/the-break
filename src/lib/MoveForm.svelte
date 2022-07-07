@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { supabase } from '$lib/supa_client';
-	import { user } from '$lib/state/session';
 	import { moves } from '$lib/state/moves';
 
 	let loading = false;
@@ -47,9 +46,10 @@
 	<div class="row">
 		<label for="type">Type</label>
 		<select name="type" id="type" bind:value={type}>
-			<option value="power">Power</option>
-			<option value="footwork">Footwork</option>
+			<option value="go-down">Go Down</option>
 			<option value="toprock">Toprock</option>
+			<option value="footwork">Footwork</option>
+			<option value="power">Power</option>
 			<option value="freeze">Freeze</option>
 		</select>
 	</div>

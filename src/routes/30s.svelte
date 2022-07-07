@@ -36,6 +36,7 @@
 
 <h2>
 	{$time / 100}
+	{$time / 100 / 30}
 </h2>
 
 {#if state === 'STOPPED' || state === 'PAUSED'}

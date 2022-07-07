@@ -4,7 +4,7 @@
 
 	moves.loadMoves();
 
-	let types = ['footwork', 'toprock', 'freeze', 'power'];
+	let types = ['go-down', 'toprock', 'footwork', 'freeze', 'power'];
 </script>
 
 <MoveForm />
