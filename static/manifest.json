@@ -1,0 +1,24 @@
+{
+	"background_color": "#000",
+	"display": "standalone",
+	"icons": [
+		{
+			"sizes": "32x32",
+			"src": "favicon-32x32.png",
+			"type": "image/png"
+		},
+		{
+			"sizes": "96x96",
+			"src": "favicon-96x96.png",
+			"type": "image/png"
+		},
+		{
+			"sizes": "192x192",
+			"src": "android-chrome-192x192.png",
+			"type": "image/png"
+		}
+	],
+	"name": "Bboy Tools",
+	"short_name": "Bboy Tools",
+	"start_url": "/"
+}
