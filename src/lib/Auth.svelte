@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { supabase } from '$lib/supa_client';
+	import { supabase } from '$lib/supa_client'
 
-	let loading = false;
-	let email: string;
+	let loading = false
+	let email: string
 
 	const handleLogin = async () => {
 		try {
-			loading = true;
+			loading = true
 			const { error } = await supabase.auth.signInWithOtp({
 				email,
 				options: {
-					emailRedirectTo: 'http://localhost:5173'
+					emailRedirectTo: window.location.origin
 				}
-			});
-			if (error) throw error;
-			alert('Check your email for the login link!');
+			})
+			if (error) throw error
+			alert('Check your email for the login link!')
 		} catch (error) {
-			alert(error.error_description || error.message);
+			alert(error.error_description || error.message)
 		} finally {
-			loading = false;
+			loading = false
 		}
-	};
+	}
 </script>
 
 <form class="row flex flex-center" on:submit|preventDefault={handleLogin}>
