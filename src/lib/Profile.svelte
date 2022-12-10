@@ -1,6 +1,5 @@
 <script>
 	import { supabase } from '$lib/supa_client';
-	import { user } from '$lib/state/session';
 
 	let loading = true;
 	let username = null;
