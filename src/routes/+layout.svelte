@@ -10,8 +10,6 @@
 	import { onMount } from 'svelte'
 	import { state } from '$lib/state/state'
 
-	export const ssr = false
-
 	onMount(() => {
 		const {
 			data: { subscription }

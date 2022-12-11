@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { moves } from '$lib/state/moves'
-	export let user
 
-	moves.loadMoves(user)
+	moves.loadMoves()
 
 	let types = ['toprock', 'go-down', 'footwork', 'freeze', 'power']
 </script>
