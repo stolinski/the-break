@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { user } from '$lib/state/session'
 	import { state } from '$lib/state/state'
-	import { supabase } from '$lib/supa_client'
-	import { moves } from '$lib/state/moves'
 	import { fly } from 'svelte/transition'
+	import { pb } from '../pocketbase'
 
 	let loading = false
 	let name: string = ''
@@ -11,29 +9,21 @@
 	let value: number = 0
 
 	async function addMove() {
-		try {
-			loading = true
-
-			const updates = {
-				user_id: $user.id,
+		loading = true
+		const move = await pb
+			.collection('moves')
+			.create({
 				name,
 				type,
-				value
-			}
-
-			let { error } = await supabase.from('moves').upsert(updates, {
-				returning: 'minimal' // Don't return the value after inserting
+				value,
+				user: pb.authStore.model?.id
 			})
-
-			await moves.loadMoves($user)
-
-			if (error) throw error
-		} catch (error) {
-			alert(error.message)
-		} finally {
-			state.toggle_new_move()
-			loading = false
-		}
+			.catch((error) => console.log(error))
+			.finally(() => {
+				state.toggle_new_move()
+				loading = false
+			})
+		console.log('move', move)
 	}
 </script>
 
@@ -69,7 +59,7 @@
 				<input id="name" type="text" bind:value={name} />
 			</div>
 			<div class="row">
-				<label for="value">Move Strength / Value</label>
+				<label for="value">Move Strength / How many props you get</label>
 				<p>{value}</p>
 				<input type="range" name="" id="" min={0} max={10} bind:value />
 			</div>

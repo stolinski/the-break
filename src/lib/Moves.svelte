@@ -1,12 +1,14 @@
 <script lang="ts">
-	import { moves } from '$lib/state/moves'
-
-	moves.loadMoves()
+	import { pb } from '../pocketbase'
 
 	let types = ['toprock', 'go-down', 'footwork', 'freeze', 'power']
+
+	const moves = pb.collection('moves').getFullList({
+		sort: '-created'
+	})
 </script>
 
-{#await $moves then data}
+{#await moves then data}
 	{#each types as type}
 		{@const filtered = data.filter((move) => move.type === type)}
 		{@const typeName = type[0].toUpperCase() + type.slice(1)}

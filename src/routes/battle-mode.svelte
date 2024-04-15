@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { moves } from '$lib/state/moves';
-	import { page } from '$lib/state/page';
-	import { battle_moves } from '$lib/state/battle_moves';
-	import BattleMove from '$lib/BattleMove.svelte';
-	import { slide } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-	page.set({ title: 'Battle Mode' });
+	import { page } from '$lib/state/page'
+	import { battle_moves } from '$lib/state/battle_moves'
+	import BattleMove from '$lib/BattleMove.svelte'
+	import { slide } from 'svelte/transition'
+	import { flip } from 'svelte/animate'
+	page.set({ title: 'Battle Mode' })
 
-	moves.loadMoves();
-
-	let types = ['go-down', 'toprock', 'footwork', 'freeze', 'power'];
+	let types = ['go-down', 'toprock', 'footwork', 'freeze', 'power']
 </script>
 
+<!-- 
 {#await $moves then data}
 	{#each types as type (type)}
 		<h3>{type}</h3>
@@ -25,7 +23,7 @@
 			{/each}
 		</div>
 	{/each}
-{/await}
+{/await} -->
 
 <button on:click={battle_moves.reset}>Reset</button>
 
