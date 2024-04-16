@@ -23,34 +23,12 @@
 				state.toggle_new_move()
 				loading = false
 			})
-		console.log('move', move)
 	}
 </script>
 
 {#if $state.new_move.status === 'OPEN'}
 	<div class="wrapper" transition:fly={{ y: 600 }}>
-		<button on:click={state.toggle_new_move}>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				xmlns:xlink="http://www.w3.org/1999/xlink"
-				version="1.1"
-				id="Capa_1"
-				x="0px"
-				y="0px"
-				viewBox="0 0 512 512"
-				style="enable-background:new 0 0 512 512;"
-				xml:space="preserve"
-				width="24"
-				height="auto"
-			>
-				<g>
-					<path
-						fill="white"
-						d="M480,224H288V32c0-17.673-14.327-32-32-32s-32,14.327-32,32v192H32c-17.673,0-32,14.327-32,32s14.327,32,32,32h192v192   c0,17.673,14.327,32,32,32s32-14.327,32-32V288h192c17.673,0,32-14.327,32-32S497.673,224,480,224z"
-					/>
-				</g>
-			</svg>
-		</button>
+		<button on:click={state.toggle_new_move}>×</button>
 
 		<form class="form-widget" on:submit|preventDefault={addMove}>
 			<h2>New Move</h2>
@@ -112,12 +90,16 @@
 	}
 
 	button {
-		display: block;
-		padding: 10px;
-		margin: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		position: absolute;
-		top: 0;
-		right: 0;
+		border-color: var(--red);
+		width: 30px;
+		height: 30px;
+
+		top: 10px;
+		right: 10px;
 		margin-left: auto;
 		background: none;
 		box-shadow: none;

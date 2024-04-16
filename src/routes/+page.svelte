@@ -3,14 +3,8 @@
 	import Moves from '$lib/Moves.svelte'
 	import { page } from '$lib/state/page'
 	import { state } from '$state/state'
-	import { pb } from '../pocketbase'
-	import type { PageData } from './$types'
 
 	page.set({ title: 'My Moves' })
-
-	export let data: PageData
-
-	$: ({} = data)
 </script>
 
 <button on:click|preventDefault={state.toggle_new_move}>
@@ -38,5 +32,4 @@
 </button>
 
 <MoveForm />
-
 <Moves />

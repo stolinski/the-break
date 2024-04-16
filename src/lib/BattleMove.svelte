@@ -1,22 +1,24 @@
 <script lang="ts">
-	import { draggable } from '@neodrag/svelte';
-	import { battle_moves } from '$lib/state/battle_moves';
-	let x = 0;
-	export let move;
+	import { draggable } from '@neodrag/svelte'
+	import { battle_moves } from '$state/battle_moves.svelte'
+	import type { MovesResponse } from '../pocket-types'
+	import { fade } from 'svelte/transition'
+	let x = 0
+	export let move: MovesResponse
 </script>
 
-<div class="move-wrapper">
+<div class="move-wrapper" transition:fade>
 	<div
 		class="move"
 		use:draggable={{ position: { x }, axis: 'x' }}
 		on:neodrag={(e) => {
-			x = e.detail.offsetX;
+			x = e.detail.offsetX
 		}}
 		on:neodrag:end={(e) => {
 			if (Math.abs(e.detail.offsetX) > 150) {
-				battle_moves.addBattleMove(move.id);
+				battle_moves.use(move.id)
 			}
-			x = 0;
+			x = 0
 		}}
 	>
 		{move.name}

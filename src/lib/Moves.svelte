@@ -1,25 +1,23 @@
 <script lang="ts">
-	import { pb } from '../pocketbase'
-
-	let types = ['toprock', 'go-down', 'footwork', 'freeze', 'power']
-
-	const moves = pb.collection('moves').getFullList({
-		sort: '-created'
-	})
+	import { moves } from '$state/moves.svelte'
+	import { fade } from 'svelte/transition'
+	import MoveType from './MoveType.svelte'
+	import { TYPES } from './const'
 </script>
 
-{#await moves then data}
-	{#each types as type}
-		{@const filtered = data.filter((move) => move.type === type)}
-		{@const typeName = type[0].toUpperCase() + type.slice(1)}
+{#if moves?.moves}
+	{#each TYPES as type}
+		{@const filtered = moves?.moves.filter((move) => move.type === type)}
+		{@const type_name = type[0].toUpperCase() + type.slice(1)}
 		<div class="move-type">
-			<h3 class={typeName.toLocaleLowerCase()}><span>{typeName.charAt(0)}</span> {typeName}</h3>
+			<MoveType {type_name} />
+
 			<div class="move-type-moves">
 				{#if filtered.length === 0}
-					<p class="fade">No {typeName} Moves added yet.</p>
+					<p class="fade">No {type_name} Moves added yet.</p>
 				{:else}
-					{#each filtered as move}
-						<div class="move-name">
+					{#each filtered as move (move.id)}
+						<div class="move-name" transition:fade>
 							{move.name}<span class={`move-${move.value}`}>{move.value}</span>
 						</div>
 					{/each}
@@ -27,41 +25,9 @@
 			</div>
 		</div>
 	{/each}
-{/await}
+{/if}
 
 <style>
-	h3 {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.footwork span {
-		background-color: var(--footwork_color);
-		color: #000;
-	}
-	.toprock span {
-		background-color: var(--toprock_color);
-	}
-	.freeze span {
-		background-color: var(--freeze_color);
-	}
-	.power span {
-		background-color: var(--power_color);
-	}
-
-	h3 span {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 30px;
-		height: 30px;
-		color: white;
-		font-weight: 900;
-		border-radius: 30px;
-		background-color: green;
-	}
-
 	.fade {
 		opacity: 0.4;
 		text-align: center;

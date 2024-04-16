@@ -10,14 +10,18 @@ html {
 :root {
 	--black: #0d1114;
 	--grey: #394851;
+	--red: #ee352e;
+	--yellow: #fccc0a;
 
 	--white: #fbf0df;
 	--bg: var(--black);
 	--color: var(--white);
-	--power_color: #ee352e;
+	--power_color: var(--red);
 	--freeze_color: #02add0;
-	--footwork_color: #fccc0a;
+	--footwork_color: var(--yellow);
 	--toprock_color: #6cbe44;
+
+	--nav_height: 60px;
 }
 
 :where(html) {
@@ -732,4 +736,8 @@ button {
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
+}
+
+.warning-btn {
+	border-color: var(--red);
 }

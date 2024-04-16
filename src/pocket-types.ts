@@ -47,6 +47,7 @@ export type MovesRecord = {
 	props?: number
 	type?: MovesTypeOptions
 	user?: RecordIdString
+	value?: number
 }
 
 export type UsersRecord = {
