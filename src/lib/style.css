@@ -12,6 +12,7 @@ html {
 	--grey: #394851;
 	--red: #ee352e;
 	--yellow: #fccc0a;
+	--green: #6cbe44;
 
 	--white: #fbf0df;
 	--bg: var(--black);
@@ -19,8 +20,7 @@ html {
 	--power_color: var(--red);
 	--freeze_color: #02add0;
 	--footwork_color: var(--yellow);
-	--toprock_color: #6cbe44;
-
+	--toprock_color: var(--green);
 	--nav_height: 60px;
 }
 
@@ -740,4 +740,7 @@ button {
 
 .warning-btn {
 	border-color: var(--red);
+}
+.go-btn {
+	border-color: var(--green);
 }

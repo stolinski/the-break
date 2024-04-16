@@ -70,15 +70,17 @@
 	{rest_status}
 </p>
 
-{#if timer_status === 'STOPPED' || timer_status === 'PAUSED'}
-	<button on:click={start}>Start</button>
-{/if}
-{#if timer_status === 'STOPPED' || timer_status === 'PAUSED'}
-	<button on:click={stop}>Reset</button>
-{/if}
-{#if timer_status === 'RUNNING'}
-	<button on:click={pause}>Pause</button>
-{/if}
+<div class="button-group">
+	{#if timer_status === 'STOPPED' || timer_status === 'PAUSED'}
+		<button class="go-btn" on:click={start}>Start</button>
+	{/if}
+	{#if timer_status === 'STOPPED' || timer_status === 'PAUSED'}
+		<button class="warning-btn" on:click={stop}>Reset</button>
+	{/if}
+	{#if timer_status === 'RUNNING'}
+		<button on:click={pause}>Pause</button>
+	{/if}
+</div>
 
 <style>
 	p {
@@ -93,5 +95,12 @@
 
 	.secondary_data {
 		font-size: 60px;
+	}
+
+	.button-group {
+		display: flex;
+		margin-top: 1rem;
+		gap: 20px;
+		flex-direction: column;
 	}
 </style>
