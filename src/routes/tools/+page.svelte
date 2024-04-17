@@ -49,6 +49,7 @@
 		border-radius: 30px;
 		padding: 40px;
 		background-color: rgba(255, 255, 255, 0.02);
+		box-shadow: 0 1px 10px 1px rgb(0 0 0 / 0.1);
 	}
 
 	a {
