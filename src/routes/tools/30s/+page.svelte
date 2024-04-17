@@ -46,7 +46,7 @@
 	}
 </script>
 
-<p>
+<p class="main_clock">
 	<span>Current Round</span>
 	{time / 100}
 </p>
@@ -84,17 +84,32 @@
 
 <style>
 	p {
-		font-family: monospace;
+		font-family: 'Space Mono', monospace;
+		font-weight: 700;
+		font-style: italic;
+		line-height: 1;
 		font-size: 120px;
-		margin: 0;
+		margin: 0 0 1.5rem;
 	}
 	span {
 		font-size: 14px;
 		display: block;
+		font-family: 'Space Mono', monospace;
+		font-weight: 400;
+		font-style: normal;
+		opacity: 0.8;
+	}
+
+	.main_clock {
+		background: rgb(0 0 0 / 0.2);
+		padding: 10px;
+		border-radius: 15px;
+		box-shadow: inset 0 1px 2px 1px rgb(0 0 0 / 0.3);
 	}
 
 	.secondary_data {
 		font-size: 60px;
+		opacity: 0.8;
 	}
 
 	.button-group {
