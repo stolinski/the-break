@@ -10,11 +10,11 @@ function createMoves() {
 		})
 	}
 
-	function add_move(move: MovesResponse) {
+	function add(move: MovesResponse) {
 		moves?.push(move)
 	}
 
-	function remove_move(move_id: string) {
+	function remove(move_id: string) {
 		moves = moves?.filter((move) => move.id !== move_id)
 	}
 
@@ -23,8 +23,8 @@ function createMoves() {
 		get moves() {
 			return moves
 		},
-		add_move,
-		remove_move
+		add,
+		remove
 	}
 }
 

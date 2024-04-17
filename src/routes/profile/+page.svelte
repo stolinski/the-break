@@ -24,4 +24,3 @@
 <!-- TODO -->
 <!-- On create account auto login and redirect -->
 <!-- On login redirect -->
-<!-- On new move update ui -->

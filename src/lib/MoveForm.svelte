@@ -2,6 +2,7 @@
 	import { state } from '$lib/state/state'
 	import { fly } from 'svelte/transition'
 	import { pb } from '../pocketbase'
+	import { moves } from '$state/moves.svelte'
 
 	let loading = false
 	let name: string = ''
@@ -23,6 +24,9 @@
 				state.toggle_new_move()
 				loading = false
 			})
+		if (move) {
+			moves.add(move)
+		}
 	}
 </script>
 
@@ -103,9 +107,5 @@
 		margin-left: auto;
 		background: none;
 		box-shadow: none;
-	}
-
-	button svg {
-		rotate: 45deg;
 	}
 </style>

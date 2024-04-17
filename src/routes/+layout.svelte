@@ -124,13 +124,14 @@
 		left: 0;
 		width: 100%;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
 		height: var(--nav_height);
 		box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
 		z-index: 10;
 		background: var(--bg);
-		font-size: 12px;
+		font-size: 10px;
+		padding: 10px 40px 20px;
 	}
 
 	nav a {
