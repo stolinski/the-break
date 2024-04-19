@@ -48,7 +48,7 @@
 
 <p class="main_clock">
 	<span>Total Time</span>
-	{total}
+	{Math.floor(total / 60)}:{(total % 60).toFixed(0).toString().padStart(2, '0')}
 </p>
 
 <p class="main_clock">
