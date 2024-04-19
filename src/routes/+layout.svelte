@@ -27,7 +27,7 @@
 	}
 </script>
 
-{#if user}
+{#if user && $skpage.url.pathname !== '/time'}
 	<header>
 		<h1>{$page.title}</h1>
 		<nav>
