@@ -42,6 +42,8 @@
 		// ! forcedly set the readable value to 0 before clearing the interval
 		// it seems the store would otherwise retain the last value and the application would stagger from this value straight to 0
 		time = 0
+		laps = 0
+		rest = 0
 		clearInterval(interval)
 	}
 </script>
