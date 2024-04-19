@@ -15,13 +15,15 @@
 	} else {
 		user = undefined
 	}
-	if (!user && $skpage.url.pathname !== '/login' && $skpage.url.pathname !== '/signup') {
-		goto('/login')
-	} else if (
-		user?.id &&
-		($skpage.url.pathname === '/login' || $skpage.url.pathname === '/signup')
-	) {
-		goto('/')
+	if ($skpage.url.pathname !== '/time') {
+		if (!user && $skpage.url.pathname !== '/login' && $skpage.url.pathname !== '/signup') {
+			goto('/login')
+		} else if (
+			user?.id &&
+			($skpage.url.pathname === '/login' || $skpage.url.pathname === '/signup')
+		) {
+			goto('/')
+		}
 	}
 </script>
 

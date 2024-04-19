@@ -25,6 +25,12 @@
 					footwork.
 				</em>
 			</p>`
+		},
+		{
+			link: 'Set Builder',
+			desc: `<p>
+				Use to mathematically build sets based on assigned props values.
+			</p>`
 		}
 	]
 </script>

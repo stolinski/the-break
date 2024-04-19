@@ -18,7 +18,7 @@
 				console.error(e)
 				error = e.message
 			})
-		console.log('collection', authData)
+		console.log('collection', authData.record.id)
 	}
 </script>
 
