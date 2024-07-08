@@ -24,7 +24,9 @@
 
 html {
 	box-sizing: border-box;
+	font-family: var(--font-sans);
 }
+
 *,
 *:before,
 *:after {
@@ -46,6 +48,16 @@ html {
 	--footwork_color: var(--yellow);
 	--toprock_color: var(--green);
 	--nav_height: 65px;
+
+	--fs-xxs: clamp(0.64rem, 0.752941vi + 0.45rem, 0.96rem);
+	--fs-xs: clamp(0.8rem, 0.941176vi + 0.56rem, 1.2rem);
+	--fs-base: clamp(1rem, 1.176471vi + 0.71rem, 1.5rem);
+	--fs-s: clamp(1.25rem, 1.482353vi + 0.88rem, 1.88rem);
+	--fs-m: clamp(1.56rem, 1.835294vi + 1.1rem, 2.34rem);
+	--fs-l: clamp(1.95rem, 2.305882vi + 1.37rem, 2.93rem);
+	--fs-xl: clamp(2.44rem, 2.870588vi + 1.72rem, 3.66rem);
+	--fs-xxl: clamp(3.05rem, 3.6vi + 2.15rem, 4.58rem);
+	--fs-xxxl: clamp(3.81rem, 4.494118vi + 2.69rem, 5.72rem);
 }
 
 :where(html) {
@@ -706,6 +718,8 @@ html {
 	}
 }
 
+/* MY CSS  */
+
 body {
 	background: linear-gradient(0deg, var(--grey), var(--black)) no-repeat;
 	min-height: 100vh;
@@ -734,10 +748,10 @@ body {
 }
 
 .form {
-		border-radius: 30px;
-		padding: 40px;
-		background-color: rgba(255, 255, 255, 0.02);
-		box-shadow: 0 1px 10px 1px rgb(0 0 0 / 0.1);
+	border-radius: 30px;
+	padding: 40px;
+	background-color: rgba(255, 255, 255, 0.02);
+	box-shadow: 0 1px 10px 1px rgb(0 0 0 / 0.1);
 
 	margin-bottom: 2rem;
 }
@@ -758,6 +772,7 @@ button {
 	border-radius: 8px;
 	font-size: 18px;
 	padding: 10px;
+	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -769,4 +784,40 @@ button {
 }
 .go-btn {
 	border-color: var(--green);
+}
+
+body {
+	font-family: Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	color: var(--color);
+}
+a {
+	color: var(--white);
+	text-decoration: none;
+}
+input,
+select {
+	color: var(--white);
+	background: transparent;
+	border: solid 1px var(--white);
+	border-radius: 3px;
+	font-size: var(--fs-base);
+	width: 100%;
+	padding: 8px;
+}
+
+label {
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: var(--white);
+	opacity: 0.5;
+	display: block;
+}
+.center {
+	text-align: center;
+}
+
+.btn-small {
+	font-size: var(--fs-xxs);
 }

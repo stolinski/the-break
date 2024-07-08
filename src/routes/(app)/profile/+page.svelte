@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { page } from '$lib/state/page'
-	import { pb } from '../../pocketbase'
+	import { pb } from '../../../pocketbase'
 
 	page.set({ title: 'Profile' })
 

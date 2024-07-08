@@ -3,7 +3,7 @@
 	import { moves } from '$state/moves.svelte'
 	import type { MovesResponse } from '../../../pocket-types'
 
-	let sets = $state([])
+	let sets: Array<MovesResponse[]> = $state([])
 	let distribution: { [key: string]: number } = $state({})
 	let possible_distribution = $state({})
 	let how_many_sets = $state(5)
@@ -32,7 +32,20 @@
 		}, {})
 
 		// Generate sets of x as move.value equal value amounts with an equal distribution of move.types
-		for (let i = 0; i < how_many_sets; i++) {}
+		let sets_index = 0
+		moves?.moves.forEach((move) => {
+			// increment sets_index but have it max out at 5
+			if (sets_index < how_many_sets) {
+				if (sets[sets_index]) {
+					sets[sets_index].push(move)
+				} else {
+					sets[sets_index] = [move]
+				}
+				sets_index++
+			} else {
+				sets_index = 0
+			}
+		})
 		status = 'DONE'
 	}
 </script>
@@ -46,12 +59,13 @@
 	<div class="row"><button onclick={reset}>Reset</button></div>
 {/if}
 
-{#if moves?.moves}{/if}
-
-<div>
-	{JSON.stringify(distribution)}
-</div>
-
-<div>
-	{JSON.stringify(possible_distribution)}
-</div>
+{#each sets as set, i}
+	<h3>Set #{i + 1}</h3>
+	<ul>
+		{#each set as move}
+			<li>
+				{move.name} - {move.type}
+			</li>
+		{/each}
+	</ul>
+{/each}

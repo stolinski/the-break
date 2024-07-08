@@ -13,6 +13,8 @@
 
 <YouSureAboutThat action_text="Reset" onclick={battle_moves.reset} />
 
+<p class="center">Drag to use move</p>
+
 {#if moves?.moves}
 	{#each TYPES as type (type)}
 		{@const filtered = moves?.moves
