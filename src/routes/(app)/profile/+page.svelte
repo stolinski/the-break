@@ -7,7 +7,7 @@
 
 	function onclick() {
 		pb.authStore.clear()
-		goto('/login')
+		goto('/auth/login')
 	}
 </script>
 
