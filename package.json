@@ -35,6 +35,7 @@
 	"type": "module",
 	"dependencies": {
 		"@neodrag/svelte": "^2.0.6",
+		"dexie": "^4.0.7",
 		"just-kebab-case": "^4.2.0",
 		"pocketbase": "^0.21.3",
 		"sk-form-data": "^2.0.2",

@@ -50,6 +50,8 @@
 	}
 </script>
 
+<p>CAUTION: This is not complete and just a basic implementation</p>
+
 {#if status === 'INITIAL'}
 	<div class="row">
 		<label for="sets"></label><input bind:value={how_many_sets} type="number" />

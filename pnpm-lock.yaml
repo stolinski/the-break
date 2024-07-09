@@ -11,6 +11,9 @@ importers:
       '@neodrag/svelte':
         specifier: ^2.0.6
         version: 2.0.6
+      dexie:
+        specifier: ^4.0.7
+        version: 4.0.7
       just-kebab-case:
         specifier: ^4.2.0
         version: 4.2.0
@@ -951,6 +954,9 @@ packages:
 
   devalue@5.0.0:
     resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
+
+  dexie@4.0.7:
+    resolution: {integrity: sha512-M+Lo6rk4pekIfrc2T0o2tvVJwL6EAAM/B78DNfb8aaxFVoI1f8/rz5KTxuAnApkwqTSuxx7T5t0RKH7qprapGg==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -2906,6 +2912,8 @@ snapshots:
   detect-libc@2.0.3: {}
 
   devalue@5.0.0: {}
+
+  dexie@4.0.7: {}
 
   dir-glob@3.0.1:
     dependencies:

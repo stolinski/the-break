@@ -6,27 +6,19 @@
 
 	let loading = false
 	let name: string = ''
-	let type: string = ''
+	let type: 'toprock' | 'footwork' | 'go-down' | 'freeze' | 'power' | 'burner' = 'toprock'
 	let value: number = 0
 
 	async function addMove() {
 		loading = true
-		const move = await pb
-			.collection('moves')
-			.create({
-				name,
-				type,
-				value,
-				user: pb.authStore.model?.id
-			})
-			.catch((error) => console.log(error))
-			.finally(() => {
-				state.toggle_new_move()
-				loading = false
-			})
-		if (move) {
-			moves.add(move)
-		}
+		await moves.save({
+			name,
+			type,
+			value,
+			user: pb.authStore.model?.id
+		})
+		state.toggle_new_move()
+		loading = false
 	}
 </script>
 
