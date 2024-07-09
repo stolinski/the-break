@@ -9,11 +9,9 @@
 	import { pb } from '$/pocketbase.js'
 
 	const { data, children } = $props()
-	moves.load()
-
 	$effect.pre(auth_guard);
-
-
+	
+	moves.load();
 
     $effect(() => {
       return pb.collection('users').subscribe(pb.authStore.model.id, async () => {

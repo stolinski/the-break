@@ -1,4 +1,4 @@
 export const settings = {
 	app_name: 'The Break',
-	app_route: '/'
+	app_route: '/moves'
 }
