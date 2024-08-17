@@ -1,4 +1,3 @@
-import PocketBase from 'pocketbase'
 import Dexie from 'dexie'
 import type { Move } from '$state/moves.svelte'
 

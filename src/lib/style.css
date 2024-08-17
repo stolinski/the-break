@@ -721,7 +721,7 @@ html {
 /* MY CSS  */
 
 body {
-	background: linear-gradient(0deg, var(--grey), var(--black)) no-repeat;
+	background: var(--black);
 	min-height: 100vh;
 }
 

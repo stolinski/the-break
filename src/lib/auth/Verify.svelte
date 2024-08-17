@@ -2,7 +2,6 @@
 	import type { UsersResponse } from '$/pocket-types'
 	import { users } from '$/pocketbase'
 	const { user }: { user: UsersResponse } = $props()
-	$inspect(user)
 
 	let verified_sent = $state(false)
 

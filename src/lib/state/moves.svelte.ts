@@ -26,7 +26,6 @@ const typeOrder = {
 
 function createMoves() {
 	let moves = $state<Move[]>()
-
 	// Set up a more frequent sync interval
 	setInterval(sync, 30 * 1000)
 	// Listen for online/offline events
