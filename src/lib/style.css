@@ -791,6 +791,9 @@ button {
 }
 .go-btn {
 	border-color: var(--green);
+	color: var(--fg);
+	background-color: transparent;
+
 	padding: 4px 8px;
 }
 

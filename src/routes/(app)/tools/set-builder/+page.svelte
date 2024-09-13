@@ -10,6 +10,8 @@
 
 	let items = ['Item 1', 'Item 2', 'Item 3', 'Item 4']
 	let listContainer: HTMLDivElement = $state(null!)
+	let is_opening = $state(false)
+	let is_closing = $state(false)
 
 	type DanceSet = {
 		id?: string
@@ -21,7 +23,7 @@
 	}
 
 	let sets: DanceSet[] = $state([])
-	let drawer: HTMLDialogElement | null = $state(null)
+	let drawer: HTMLDialogElement = $state(null!)
 	let selectedSetIndex: number | null = $state(null)
 	let used_moves = $derived(
 		sets
@@ -76,13 +78,40 @@
 		}
 	}
 
-	function openDrawer(index: number) {
-		selectedSetIndex = index
-		drawer?.showModal()
-	}
+	function toggle(index?: number) {
+		is_opening = !drawer.open
+		is_closing = drawer.open
 
-	function closeDrawer() {
-		drawer?.close()
+		let start = `0 0`
+		let end = '0 100vb'
+		let translate = is_closing ? [start, end] : [end, start]
+
+		if (is_opening) {
+			drawer.showModal()
+			if (index !== undefined) {
+				selectedSetIndex = index
+			}
+		}
+
+		window.requestAnimationFrame(() => {
+			let animation = drawer.animate(
+				{
+					translate
+				},
+				{
+					duration: 300,
+					easing: 'ease-in-out',
+					fill: 'forwards'
+				}
+			)
+			animation.onfinish = () => {
+				if (is_closing) {
+					drawer.close()
+				}
+				is_closing = false
+				is_opening = false
+			}
+		})
 	}
 
 	async function addMoveToSet(move: MovesResponse) {
@@ -121,7 +150,7 @@
 {#each sets as set, index ('set-builder-set-' + index)}
 	<div>
 		<h3>{set.name}</h3>
-		<button onclick={() => openDrawer(index)}>Add Moves</button>
+		<button onclick={() => toggle(index)}>Add Moves</button>
 
 		{#if set?.expand?.moves}
 			<div class="row">
@@ -141,7 +170,7 @@
 <dialog bind:this={drawer}>
 	<div class="drawer-content">
 		<h2>Add Moves to Set</h2>
-		<button class="close-btn" onclick={closeDrawer}>×</button>
+		<button class="close-btn" onclick={toggle}>×</button>
 		<ul>
 			{#each moves?.moves as move}
 				{#if !used_moves.includes(move.id)}
@@ -149,7 +178,7 @@
 						<div class={'move-bubble ' + move.type.toLocaleLowerCase()}>
 							<span>{move.type.charAt(0)}</span>{move.name}
 						</div>
-						<button class="small" onclick={() => addMoveToSet(move)}>Add</button>
+						<button class="small go-btn" onclick={() => addMoveToSet(move)}>Add</button>
 					</li>
 				{/if}
 			{/each}
