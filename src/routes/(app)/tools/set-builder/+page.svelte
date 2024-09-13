@@ -1,73 +1,222 @@
 <script lang="ts">
-	import { page } from '$lib/state/page'
+	import type { MovesResponse } from '$/pocket-types'
+	import { pb } from '$/pocketbase'
 	import { moves } from '$state/moves.svelte'
-	import type { MovesResponse } from '../../../pocket-types'
+	import {
+		SortableList,
+		sortItems,
+		type SortableListProps
+	} from '@rodrigodagostino/svelte-sortable-list'
 
-	let sets: Array<MovesResponse[]> = $state([])
-	let distribution: { [key: string]: number } = $state({})
-	let possible_distribution = $state({})
-	let how_many_sets = $state(5)
-	let status: 'INITIAL' | 'BUILDING' | 'DONE' = $state('INITIAL')
+	let items = ['Item 1', 'Item 2', 'Item 3', 'Item 4']
+	let listContainer: HTMLDivElement = $state(null!)
 
-	page.set({ title: 'Set Builder' })
-
-	function reset() {
-		status = 'INITIAL'
-		sets = []
+	type DanceSet = {
+		id?: string
+		name: string
+		moves: string[]
+		expand: {
+			moves: MovesResponse[]
+		}
 	}
 
-	function generate() {
-		status = 'BUILDING'
+	let sets: DanceSet[] = $state([])
+	let drawer: HTMLDialogElement | null = $state(null)
+	let selectedSetIndex: number | null = $state(null)
+	let used_moves = $derived(
+		sets
+			.map((set) => set?.expand?.moves)
+			.flat()
+			.map((move) => move?.id)
+	)
 
-		distribution = moves?.moves?.reduce((prev: { [key: string]: number }, curr: MovesResponse) => {
-			// fix hypenated property name
-			prev[curr.type] = prev[curr.type] ? prev[curr.type] + 1 : 1
-			return prev
-		}, {})
+	$effect(() => {
+		loadSets()
+	})
 
-		// Determine how many of each move.type will distribute into sets
-		possible_distribution = Object.keys(distribution).reduce((prev, curr) => {
-			prev[curr] = distribution[curr] / how_many_sets
-			return prev
-		}, {})
+	function handleSort(event: CustomEvent, index: number) {
+		const { prevIndex, nextIndex } = event.detail
+		sets[index].expand.moves = sortItems(
+			$state.snapshot(sets[index].expand.moves),
+			prevIndex,
+			nextIndex
+		)
+	}
 
-		// Generate sets of x as move.value equal value amounts with an equal distribution of move.types
-		let sets_index = 0
-		moves?.moves.forEach((move) => {
-			// increment sets_index but have it max out at 5
-			if (sets_index < how_many_sets) {
-				if (sets[sets_index]) {
-					sets[sets_index].push(move)
-				} else {
-					sets[sets_index] = [move]
-				}
-				sets_index++
+	async function loadSets() {
+		try {
+			const loadedSets = await pb.collection('sets').getFullList<DanceSet>({
+				sort: 'created',
+				expand: 'moves'
+			})
+			sets = loadedSets
+		} catch (error) {
+			console.error('Failed to load sets:', error)
+		}
+	}
+
+	async function saveSet(set: DanceSet) {
+		try {
+			if (set.id) {
+				await pb.collection('sets').update(set.id, {
+					name: set.name,
+					moves: set.expand.moves.map((move) => move.id),
+					user: pb.authStore.model?.id
+				})
 			} else {
-				sets_index = 0
+				const newSet = await pb.collection('sets').create({
+					name: set.name,
+					moves: [],
+					user: pb.authStore.model?.id
+				})
+				set.id = newSet.id
 			}
-		})
-		status = 'DONE'
+		} catch (error) {
+			console.error('Failed to save set:', error)
+		}
+	}
+
+	function openDrawer(index: number) {
+		selectedSetIndex = index
+		drawer?.showModal()
+	}
+
+	function closeDrawer() {
+		drawer?.close()
+	}
+
+	async function addMoveToSet(move: MovesResponse) {
+		if (selectedSetIndex !== null) {
+			if (!sets[selectedSetIndex]?.expand?.moves) {
+				sets[selectedSetIndex] = {
+					...sets[selectedSetIndex],
+					expand: { moves: [] }
+				}
+			}
+			sets[selectedSetIndex].expand.moves = [
+				...sets[selectedSetIndex].expand.moves,
+				$state.snapshot(move)
+			]
+			sets = [...sets] // Trigger reactivity
+			await saveSet(sets[selectedSetIndex])
+		}
+	}
+
+	async function removeMoveFromSet(move: MovesResponse, setIndex: number) {
+		sets[setIndex].expand.moves = sets[setIndex].expand.moves.filter((m) => m.id !== move.id)
+		sets = [...sets] // Trigger reactivity
+		await saveSet(sets[setIndex])
+	}
+
+	async function addSet() {
+		const newSet: DanceSet = { name: `Set ${sets.length + 1}`, moves: [] }
+		sets.push(newSet)
+		await saveSet(newSet)
 	}
 </script>
 
-<p>CAUTION: This is not complete and just a basic implementation</p>
+<!-- An add button that creates a new set -->
+<button onclick={addSet}>Add Set</button>
 
-{#if status === 'INITIAL'}
-	<div class="row">
-		<label for="sets"></label><input bind:value={how_many_sets} type="number" />
+{#each sets as set, index ('set-builder-set-' + index)}
+	<div>
+		<h3>{set.name}</h3>
+		<button onclick={() => openDrawer(index)}>Add Moves</button>
+
+		{#if set?.expand?.moves}
+			<div class="row">
+				<SortableList items={set?.expand?.moves} let:item on:sort={(e) => handleSort(e, index)}>
+					<div class={'move-bubble ' + item.type.toLocaleLowerCase()}>
+						<span>{item.type.charAt(0)}</span>{item.name}
+						<button class="small warning-btn" onclick={() => removeMoveFromSet(item, index)}
+							>Remove</button
+						>
+					</div>
+				</SortableList>
+			</div>
+		{/if}
 	</div>
-	<div class="row"><button onclick={generate}>Generate</button></div>
-{:else if status === 'DONE'}
-	<div class="row"><button onclick={reset}>Reset</button></div>
-{/if}
-
-{#each sets as set, i}
-	<h3>Set #{i + 1}</h3>
-	<ul>
-		{#each set as move}
-			<li>
-				{move.name} - {move.type}
-			</li>
-		{/each}
-	</ul>
 {/each}
+
+<dialog bind:this={drawer}>
+	<div class="drawer-content">
+		<h2>Add Moves to Set</h2>
+		<button onclick={closeDrawer}>Close</button>
+		<ul>
+			{#each moves?.moves as move}
+				{#if !used_moves.includes(move.id)}
+					<li>
+						<div class={'move-bubble ' + move.type.toLocaleLowerCase()}>
+							<span>{move.type.charAt(0)}</span>{move.name}
+						</div>
+						<button class="small" onclick={() => addMoveToSet(move)}>Add</button>
+					</li>
+				{/if}
+			{/each}
+		</ul>
+	</div>
+</dialog>
+
+<style>
+	:is(.footwork, .toprock, .freeze, .power, .move-bubble) {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 30px;
+			text-transform: uppercase;
+			color: white;
+			font-weight: 900;
+			border-radius: 30px;
+			background-color: green;
+		}
+		button {
+			margin-left: auto;
+		}
+	}
+
+	.footwork span {
+		background-color: var(--footwork_color);
+		color: #000;
+	}
+	.toprock span {
+		background-color: var(--toprock_color);
+	}
+	.freeze span {
+		background-color: var(--freeze_color);
+	}
+	.power span {
+		background-color: var(--power_color);
+	}
+	dialog {
+		width: 80%;
+		max-width: 500px;
+		border: none;
+		border-radius: 8px;
+		padding: 20px;
+		background-color: var(--bg);
+		color: var(--color);
+	}
+
+	.drawer-content {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+</style>

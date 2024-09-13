@@ -34,7 +34,7 @@ html {
 }
 
 :root {
-	--black: #0d1114;
+	--black: #111;
 	--grey: #394851;
 	--red: #ee352e;
 	--yellow: #fccc0a;
@@ -752,7 +752,6 @@ body {
 	padding: 40px;
 	background-color: rgba(255, 255, 255, 0.02);
 	box-shadow: 0 1px 10px 1px rgb(0 0 0 / 0.1);
-
 	margin-bottom: 2rem;
 }
 
@@ -764,8 +763,8 @@ label {
 
 input[type='submit'],
 button {
-	color: var(--fg);
-	background: transparent;
+	color: var(--bg);
+	background: var(--footwork_color);
 	border: solid 2px var(--footwork_color);
 	box-shadow: var(--shadow-3);
 	font-weight: bold;
@@ -779,11 +778,24 @@ button {
 	gap: 10px;
 }
 
+.ghost {
+	color: var(--footwork_color);
+	background-color: transparent;
+}
+
 .warning-btn {
 	border-color: var(--red);
+	color: var(--fg);
+	background-color: transparent;
+	padding: 4px 8px;
 }
 .go-btn {
 	border-color: var(--green);
+	padding: 4px 8px;
+}
+
+.small {
+	font-size: 14px;
 }
 
 body {
@@ -820,4 +832,8 @@ label {
 
 .btn-small {
 	font-size: var(--fs-xxs);
+}
+
+.row {
+	margin-block: 2rem;
 }
