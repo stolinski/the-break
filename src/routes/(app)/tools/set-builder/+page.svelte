@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { MovesResponse } from '$/pocket-types'
 	import { pb } from '$/pocketbase'
+	import { page } from '$lib/state/page'
 	import { moves } from '$state/moves.svelte'
 	import {
 		SortableList,
@@ -13,6 +14,7 @@
 	let is_opening = $state(false)
 	let is_closing = $state(false)
 
+	page.set({ title: 'Set Builder' })
 	type DanceSet = {
 		id?: string
 		name: string
