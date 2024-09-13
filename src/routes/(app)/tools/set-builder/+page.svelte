@@ -141,7 +141,7 @@
 <dialog bind:this={drawer}>
 	<div class="drawer-content">
 		<h2>Add Moves to Set</h2>
-		<button onclick={closeDrawer}>Close</button>
+		<button class="close-btn" onclick={closeDrawer}>×</button>
 		<ul>
 			{#each moves?.moves as move}
 				{#if !used_moves.includes(move.id)}
@@ -193,13 +193,24 @@
 		background-color: var(--power_color);
 	}
 	dialog {
-		width: 80%;
-		max-width: 500px;
+		width: 100%;
+		inset: auto 0 0 0;
+		height: 50%;
+		max-width: 95vi;
 		border: none;
 		border-radius: 8px;
-		padding: 20px;
+		padding: 12px;
 		background-color: var(--bg);
 		color: var(--color);
+		box-shadow:
+			0.5px 0.8px 1.1px hsl(var(--shadow-color) / 0.3),
+			2.7px 4.4px 5.8px -0.4px hsl(var(--shadow-color) / 0.3),
+			4.9px 8px 10.6px -0.7px hsl(var(--shadow-color) / 0.3),
+			8.1px 13.1px 17.3px -1.1px hsl(var(--shadow-color) / 0.3),
+			12.9px 20.9px 27.6px -1.4px hsl(var(--shadow-color) / 0.3),
+			20.1px 32.7px 43.2px -1.8px hsl(var(--shadow-color) / 0.3),
+			30.6px 49.7px 65.7px -2.1px hsl(var(--shadow-color) / 0.3),
+			45px 73.1px 96.6px -2.5px hsl(var(--shadow-color) / 0.3);
 	}
 
 	.drawer-content {
@@ -218,5 +229,20 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 10px;
+	}
+	.close-btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		border-color: var(--red);
+		width: 30px;
+		height: 30px;
+		color: var(--red);
+		top: 10px;
+		right: 10px;
+		margin-left: auto;
+		background: none;
+		box-shadow: none;
 	}
 </style>
