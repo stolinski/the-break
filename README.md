@@ -17,4 +17,48 @@ Battle Mode - This shows all of your moves in their different categories. Swipe 
 - Pocketbase hosted on Coolify
 - Hosted on Cloudflare Pages
 
+## Development
+
+### Setup
+```bash
+pnpm install
+```
+
+### Testing
+
+The project uses Vitest for unit testing and Playwright for end-to-end testing.
+
+#### Unit Tests
+```bash
+# Run tests once
+pnpm run test
+
+# Run tests in watch mode
+pnpm run test:watch
+
+# Run tests with UI
+pnpm run test:ui
+
+# Run tests with coverage
+pnpm run test:coverage
+```
+
+#### E2E Tests
+```bash
+# Run e2e tests
+pnpm run test:e2e
+
+# Run e2e tests with UI
+pnpm run test:e2e:ui
+```
+
+### Build & Deploy
+```bash
+# Build the project
+pnpm run build
+
+# Preview the build
+pnpm run preview
+```
+
 syntax.fm
