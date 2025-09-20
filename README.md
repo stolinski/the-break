@@ -17,4 +17,40 @@ Battle Mode - This shows all of your moves in their different categories. Swipe 
 - Pocketbase hosted on Coolify
 - Hosted on Cloudflare Pages
 
+## Development
+
+### Setup
+
+```bash
+pnpm install
+```
+
+### Testing
+
+The project uses Playwright for comprehensive end-to-end testing that covers both functionality and user interactions.
+
+#### Running Tests
+
+```bash
+# Run all tests
+pnpm run test
+
+# Run tests with interactive UI
+pnpm run test:ui
+```
+
+#### Writing Tests
+
+Tests are located in the `tests/` directory and use Playwright's powerful testing capabilities to test the application as users would experience it.
+
+### Build & Deploy
+
+```bash
+# Build the project
+pnpm run build
+
+# Preview the build
+pnpm run preview
+```
+
 syntax.fm
