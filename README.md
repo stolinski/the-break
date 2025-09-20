@@ -26,31 +26,19 @@ pnpm install
 
 ### Testing
 
-The project uses Vitest for unit testing and Playwright for end-to-end testing.
+The project uses Playwright for comprehensive end-to-end testing that covers both functionality and user interactions.
 
-#### Unit Tests
+#### Running Tests
 ```bash
-# Run tests once
+# Run all tests
 pnpm run test
 
-# Run tests in watch mode
-pnpm run test:watch
-
-# Run tests with UI
+# Run tests with interactive UI
 pnpm run test:ui
-
-# Run tests with coverage
-pnpm run test:coverage
 ```
 
-#### E2E Tests
-```bash
-# Run e2e tests
-pnpm run test:e2e
-
-# Run e2e tests with UI
-pnpm run test:e2e:ui
-```
+#### Writing Tests
+Tests are located in the `tests/` directory and use Playwright's powerful testing capabilities to test the application as users would experience it.
 
 ### Build & Deploy
 ```bash

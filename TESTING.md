@@ -1,114 +1,25 @@
 # Testing Guide
 
-This project uses **Vitest** for unit/integration testing and **Playwright** for end-to-end testing.
+This project uses **Playwright** for comprehensive end-to-end testing that covers functionality, user interactions, and visual validation.
 
-## Unit Testing with Vitest
-
-### Running Tests
+## Running Tests
 
 ```bash
-# Run tests once
+# Run all tests
 pnpm run test
 
-# Run tests in watch mode (re-runs on file changes)
-pnpm run test:watch
-
-# Run tests with a web UI
+# Run tests with interactive UI for debugging
 pnpm run test:ui
-
-# Run tests with coverage report
-pnpm run test:coverage
-```
-
-### Writing Unit Tests
-
-Unit tests should be placed next to the file they test with a `.test.ts` or `.spec.ts` extension.
-
-#### Example: Testing a utility function
-
-```typescript
-// src/utils/math.ts
-export function add(a: number, b: number): number {
-  return a + b;
-}
-
-// src/utils/math.test.ts
-import { expect, test } from 'vitest';
-import { add } from './math';
-
-test('adds numbers correctly', () => {
-  expect(add(2, 3)).toBe(5);
-});
-```
-
-#### Example: Testing Svelte state management
-
-```typescript
-// src/lib/state/counter.svelte.ts
-function createCounter() {
-  let count = $state(0);
-  
-  return {
-    increment: () => count++,
-    decrement: () => count--,
-    get count() { return count; }
-  };
-}
-
-export const counter = createCounter();
-
-// src/lib/state/counter.test.ts
-import { expect, test, beforeEach } from 'vitest';
-import { counter } from './counter.svelte';
-
-beforeEach(() => {
-  // Reset state before each test
-  counter.reset?.();
-});
-
-test('increments count', () => {
-  const initialCount = counter.count;
-  counter.increment();
-  expect(counter.count).toBe(initialCount + 1);
-});
-```
-
-### Available Test Utilities
-
-The test environment includes:
-- **jsdom** for DOM simulation
-- **@testing-library/jest-dom** for additional matchers
-- Mocked localStorage and PocketBase (see `src/lib/test-setup.ts`)
-
-## Component Testing
-
-Component testing for Svelte 5 is currently limited due to ecosystem compatibility. For now, focus on:
-1. Testing component logic separately
-2. Testing state management
-3. Testing utility functions
-
-When the ecosystem matures, component tests can be added using `@testing-library/svelte`.
-
-## End-to-End Testing with Playwright
-
-### Running E2E Tests
-
-```bash
-# Run e2e tests
-pnpm run test:e2e
-
-# Run e2e tests with interactive UI
-pnpm run test:e2e:ui
 
 # Install browsers (if needed)
 npx playwright install
 ```
 
-### Writing E2E Tests
+## Writing Tests
 
-E2E tests should be placed in the `tests/` directory with a `.spec.ts` extension.
+Tests should be placed in the `tests/` directory with a `.spec.ts` extension.
 
-#### Example: Testing user flows
+### Example: Testing user flows
 
 ```typescript
 // tests/navigation.spec.ts
@@ -141,64 +52,194 @@ test('user can add a new move', async ({ page }) => {
 });
 ```
 
-### Playwright Configuration
+### Testing Mobile Responsiveness
+
+```typescript
+test('mobile navigation works correctly', async ({ page }) => {
+  // Set mobile viewport
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto('/');
+  
+  // Test mobile-specific interactions
+  await page.click('[data-testid="mobile-menu-toggle"]');
+  await expect(page.locator('[data-testid="mobile-menu"]')).toBeVisible();
+});
+```
+
+### Testing Form Interactions
+
+```typescript
+test('move form validation works', async ({ page }) => {
+  await page.goto('/moves');
+  await page.click('[data-testid="add-move"]');
+  
+  // Try to submit without required fields
+  await page.click('[data-testid="submit-move"]');
+  
+  // Should show validation errors
+  await expect(page.locator('[data-testid="error-message"]')).toBeVisible();
+  
+  // Fill required fields and submit
+  await page.fill('[data-testid="move-name"]', 'Test Move');
+  await page.selectOption('[data-testid="move-type"]', 'toprock');
+  await page.click('[data-testid="submit-move"]');
+  
+  // Should succeed
+  await expect(page.locator('[data-testid="success-message"]')).toBeVisible();
+});
+```
+
+## Playwright Configuration
 
 The Playwright configuration supports:
 - **Multiple browsers**: Chromium, Firefox, WebKit
 - **Mobile testing**: iPhone and Android viewports
 - **Automatic server startup**: Builds and serves the app before testing
 - **Screenshots and traces**: Captured on test failure
+- **Parallel execution**: Tests run in parallel for faster feedback
 
 ## Best Practices
 
-### Unit Tests
-- Test business logic, not implementation details
-- Use descriptive test names
-- Test edge cases and error conditions
-- Mock external dependencies (database, APIs)
-- Keep tests fast and isolated
-
-### E2E Tests
-- Test critical user journeys
-- Use data-testid attributes for reliable selectors
+### Test Structure
+- Use descriptive test names that explain the user scenario
+- Group related tests using `test.describe()`
+- Test critical user journeys end-to-end
 - Test across different browsers and viewports
-- Keep e2e tests focused on happy paths
-- Use page object models for complex flows
+- Use data-testid attributes for reliable element selection
 
-### General
-- Run tests frequently during development
-- Maintain good test coverage (aim for >80%)
-- Update tests when changing functionality
-- Use meaningful assertions
-- Document complex test scenarios
+### Writing Reliable Tests
+```typescript
+// Good: Use data-testid for reliable selection
+await page.click('[data-testid="submit-button"]');
+
+// Avoid: CSS selectors that might change
+await page.click('.btn-primary');
+
+// Good: Wait for specific conditions
+await expect(page.locator('[data-testid="loading"]')).toBeHidden();
+await page.click('[data-testid="next-step"]');
+
+// Good: Test user-visible behavior
+await expect(page.locator('text=Move added successfully')).toBeVisible();
+```
+
+### Page Object Pattern
+For complex flows, consider using the Page Object pattern:
+
+```typescript
+// tests/pages/MovesPage.ts
+export class MovesPage {
+  constructor(private page: Page) {}
+  
+  async addMove(name: string, type: string) {
+    await this.page.click('[data-testid="add-move"]');
+    await this.page.fill('[data-testid="move-name"]', name);
+    await this.page.selectOption('[data-testid="move-type"]', type);
+    await this.page.click('[data-testid="submit-move"]');
+  }
+  
+  async expectMoveInList(moveName: string) {
+    await expect(this.page.locator(`[data-testid="move-${moveName}"]`)).toBeVisible();
+  }
+}
+
+// tests/moves.spec.ts
+import { MovesPage } from './pages/MovesPage';
+
+test('user can add and see new move', async ({ page }) => {
+  const movesPage = new MovesPage(page);
+  await page.goto('/moves');
+  
+  await movesPage.addMove('Windmill', 'power');
+  await movesPage.expectMoveInList('Windmill');
+});
+```
 
 ## Continuous Integration
 
-Tests should be run in CI/CD pipelines:
+The project includes a GitHub Actions workflow that:
+- Runs on every pull request and push to main
+- Installs dependencies and builds the project
+- Runs linting and type checking
+- Executes all Playwright tests
+- Uploads test reports as artifacts
 
-```yaml
-# Example GitHub Actions workflow
-- name: Run unit tests
-  run: pnpm run test
+## Debugging Tests
 
-- name: Run e2e tests
-  run: |
-    npx playwright install --with-deps
-    pnpm run test:e2e
+### Interactive Mode
+```bash
+# Run tests with UI for step-by-step debugging
+pnpm run test:ui
+
+# Run a specific test file
+npx playwright test tests/specific-test.spec.ts
+
+# Run tests in headed mode (shows browser)
+npx playwright test --headed
 ```
 
-## Troubleshooting
+### Debug Mode
+```bash
+# Run in debug mode with browser developer tools
+npx playwright test --debug
 
-### Common Issues
+# Pause test execution at specific points
+await page.pause(); // Add this line in your test
+```
 
-1. **Tests timing out**: Increase timeout or check for infinite loops
-2. **Component tests failing**: Ensure proper mocking of external dependencies
-3. **E2E tests flaky**: Add proper waits and use data-testid attributes
-4. **Coverage too low**: Add tests for untested code paths
+### Screenshots and Videos
+Configure in `playwright.config.ts`:
+```typescript
+use: {
+  // Capture screenshot on failure
+  screenshot: 'only-on-failure',
+  
+  // Record video on failure
+  video: 'retain-on-failure',
+}
+```
 
-### Debug Tips
+## Common Test Scenarios
 
-- Use `test.only()` to run a single test
-- Use `console.log()` in tests for debugging
-- Use Playwright's debug mode: `npx playwright test --debug`
-- Check test setup files for proper mocking
+### Authentication Flow
+```typescript
+test('user login flow', async ({ page }) => {
+  await page.goto('/login');
+  await page.fill('[data-testid="email"]', 'test@example.com');
+  await page.fill('[data-testid="password"]', 'password');
+  await page.click('[data-testid="login-button"]');
+  
+  await expect(page).toHaveURL('/dashboard');
+  await expect(page.locator('[data-testid="user-menu"]')).toBeVisible();
+});
+```
+
+### Data Persistence
+```typescript
+test('data persists after page reload', async ({ page }) => {
+  await page.goto('/moves');
+  await page.click('[data-testid="add-move"]');
+  await page.fill('[data-testid="move-name"]', 'Test Move');
+  await page.click('[data-testid="submit-move"]');
+  
+  // Reload page
+  await page.reload();
+  
+  // Data should still be there
+  await expect(page.locator('text=Test Move')).toBeVisible();
+});
+```
+
+## Performance Testing
+```typescript
+test('page loads within acceptable time', async ({ page }) => {
+  const startTime = Date.now();
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  const loadTime = Date.now() - startTime;
+  
+  expect(loadTime).toBeLessThan(3000); // Page should load within 3 seconds
+});
+```
+
+This comprehensive testing approach ensures that the application works correctly from the user's perspective while maintaining good performance and reliability.
