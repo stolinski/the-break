@@ -1,13 +1,13 @@
 /**
-* This file was @generated using pocketbase-typegen
-*/
+ * This file was @generated using pocketbase-typegen
+ */
 
 import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
-	Moves = "moves",
-	Users = "users",
+	Moves = 'moves',
+	Users = 'users'
 }
 
 // Alias types for improved usability
@@ -35,12 +35,12 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export enum MovesTypeOptions {
-	"toprock" = "toprock",
-	"footwork" = "footwork",
-	"go-down" = "go-down",
-	"freeze" = "freeze",
-	"power" = "power",
-	"burner" = "burner",
+	'toprock' = 'toprock',
+	'footwork' = 'footwork',
+	'go-down' = 'go-down',
+	'freeze' = 'freeze',
+	'power' = 'power',
+	'burner' = 'burner'
 }
 export type MovesRecord = {
 	name?: string
