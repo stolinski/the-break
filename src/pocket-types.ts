@@ -35,12 +35,12 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export enum MovesTypeOptions {
-	'toprock' = 'toprock',
-	'footwork' = 'footwork',
+	toprock = 'toprock',
+	footwork = 'footwork',
 	'go-down' = 'go-down',
-	'freeze' = 'freeze',
-	'power' = 'power',
-	'burner' = 'burner'
+	freeze = 'freeze',
+	power = 'power',
+	burner = 'burner'
 }
 export type MovesRecord = {
 	name?: string
