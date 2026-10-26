@@ -39,5 +39,6 @@
 		"pocketbase": "^0.21.5",
 		"sk-form-data": "^2.0.2",
 		"svelte-gesture": "^0.1.4"
-	}
+	},
+	"packageManager": "pnpm@9.15.9"
 }
